@@ -1,10 +1,3 @@
-
-import streamlit as st
-import pandas as pd
-from sklearn.metrics import pairwise_distances
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD
-
 # Load movie dataset
 movies_list = pd.read_csv("movies.csv")
 movies_list_title = movies_list["title"].values
