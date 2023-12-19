@@ -30,7 +30,7 @@ def recommend(movie):
 
     recommended_movies = []
     recommended_posters = []
-    for i insorted_movie_list:
+    for i in sorted_movie_list:
         poster_path = movies_list["poster_path"].iloc[i[0]]
         recommended_movies.append(movies_list.iloc[i[0]].title)
         recommended_posters.append("https://image.tmdb.org/t/p/original" + poster_path)
