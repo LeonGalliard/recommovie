@@ -1,8 +1,8 @@
+
 import streamlit as st
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics import pairwise_distances
 from sklearn.feature_extraction.text import TfidfVectorizer
-from scipy.sparse import csr_matrix
 from sklearn.decomposition import TruncatedSVD
 
 # Load movie dataset
@@ -13,15 +13,12 @@ movies_list_title = movies_list["title"].values
 tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=5000)
 tfidf_matrix = tfidf_vectorizer.fit_transform(movies_list['overview'].fillna(''))
 
-# Convert TF-IDF matrix to sparse format
-tfidf_matrix_sparse = csr_matrix(tfidf_matrix)
-
 # Reduce dimensionality using TruncatedSVD with adjusted components
 svd = TruncatedSVD(n_components=100)  # Adjust the number of components
-reduced_tfidf_matrix = svd.fit_transform(tfidf_matrix_sparse)
+reduced_tfidf_matrix = svd.fit_transform(tfidf_matrix)
 
 # Calculate cosine similarity on the reduced matrix
-similarity = cosine_similarity(reduced_tfidf_matrix, reduced_tfidf_matrix, dense_output=False)
+similarity = 1 - pairwise_distances(reduced_tfidf_matrix, metric='cosine')
 
 def recommend(movie):
     movie_index = movies_list[movies_list["title"] == movie].index[0]
