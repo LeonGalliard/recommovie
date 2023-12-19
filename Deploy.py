@@ -1,5 +1,3 @@
-!pip install pandas scikit-learn streamlit
-
 import streamlit as st
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
@@ -11,15 +9,14 @@ from sklearn.decomposition import TruncatedSVD
 movies_list = pd.read_csv("movies.csv")
 movies_list_title = movies_list["title"].values
 
-
-# Create a TF-IDF Vectorizer
-tfidf_vectorizer = TfidfVectorizer(stop_words='english')
+# Create a TF-IDF Vectorizer with adjusted parameters
+tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=5000)
 tfidf_matrix = tfidf_vectorizer.fit_transform(movies_list['overview'].fillna(''))
 
 # Convert TF-IDF matrix to sparse format
 tfidf_matrix_sparse = csr_matrix(tfidf_matrix)
 
-# Reduce dimensionality using TruncatedSVD
+# Reduce dimensionality using TruncatedSVD with adjusted components
 svd = TruncatedSVD(n_components=100)  # Adjust the number of components
 reduced_tfidf_matrix = svd.fit_transform(tfidf_matrix_sparse)
 
@@ -33,7 +30,7 @@ def recommend(movie):
 
     recommended_movies = []
     recommended_posters = []
-    for i in sorted_movie_list:
+    for i insorted_movie_list:
         poster_path = movies_list["poster_path"].iloc[i[0]]
         recommended_movies.append(movies_list.iloc[i[0]].title)
         recommended_posters.append("https://image.tmdb.org/t/p/original" + poster_path)
