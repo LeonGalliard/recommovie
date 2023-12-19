@@ -9,6 +9,7 @@ from sklearn.decomposition import TruncatedSVD
 movies_list = pd.read_csv("movies.csv")
 movies_list_title = movies_list["title"].values
 
+
 # Create a TF-IDF Vectorizer
 tfidf_vectorizer = TfidfVectorizer(stop_words='english')
 tfidf_matrix = tfidf_vectorizer.fit_transform(movies_list['overview'].fillna(''))
